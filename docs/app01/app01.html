@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>年齢計算</title>
+</head>
+<body>
+    <h1>年齢計算</h1>
+    <label for="birth-year">生まれた年月日:</label>
+    <input type="date" id="birthday" name="birthday">
+    <button onclick="calculateAge()">計算する</button>
+    <p id="result"></p>
+
+    <script>
+        function calculateAge() {
+            const birthday = new Date(document.getElementById("birthday").value);
+            const today = new Date();
+            let age = today.getFullYear() - birthday.getFullYear();
+            const m = today.getMonth() - birthday.getMonth();
+    
+            if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+                age--;
+            }
+    
+            document.getElementById("result").innerHTML = "あなたの年齢は " + age + " 歳です。";
+        }
+    </script>
+    
+</body>
+</html>
