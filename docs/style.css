@@ -1,0 +1,15 @@
+body{
+    margin: 0;
+    padding: 20px;
+    font-family: "Montserrat", sans-serif;
+    background-color: #f7f7f7;
+}
+.container{
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
