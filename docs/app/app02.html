@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サイコロ(仮)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container">
+    <h1>サイコロ(仮)</h1>
+    
+    <p>今は1~6の乱数を表示するだけです。<br>
+    そのうちCSSサイコロを作ります。<br></p>
+    <button onclick="roll_dice()">サイコロをふる</button>
+    <p id="result"></p>
+    <script>
+        function roll_dice() {
+            // 1~6のランダムな整数を生成
+            const random = Math.floor(Math.random() * 6) + 1;
+            document.getElementById("result").innerHTML = "サイコロの目: " + random ;
+        }
+    </script>
+    <p>学んだことメモ</p>
+    <ul>
+        <li>li要素の使い方</li>
+        <li>javascriptでのコメント行は//を使う</li>
+        <li>javascriptではconst,letを使うことが推奨されること</li>
+    </ul>
+    </div>
+</body>
+</html>
