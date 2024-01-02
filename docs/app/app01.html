@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>年齢計算</title>
+    <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+    <div class="container">
     <h1>年齢計算</h1>
     <label for="birth-year">生まれた年月日:</label>
     <input type="date" id="birthday" name="birthday">
-    <button onclick="calculateAge()">計算する</button>
+    <button onclick="calculateAge();setElemntZodiac();">計算する</button>
     <p id="result"></p>
+    <p id="result_zodiac"></p>
+    </div>
 
     <script>
         function calculateAge() {
@@ -25,6 +29,18 @@
     
             document.getElementById("result").innerHTML = "あなたの年齢は " + age + " 歳です。";
         }
+        function setElemntZodiac() {
+            const birthday = new Date(document.getElementById("birthday").value);
+            const year = birthday.getFullYear();
+            document.getElementById("result_zodiac").innerHTML = "あなたの干支は " + calculateZodiac(year) + " です。";
+        }
+
+        function calculateZodiac(year) {
+            const zodiacs = ["申（さる）", "酉（とり）", "戌（いぬ）", "亥（い）", "子（ねずみ）", "丑（うし）", "寅（とら）", "卯（うさぎ）", "辰（たつ）", "巳（へび）", "午（うま）", "未（ひつじ）"];
+            return zodiacs[year % 12];
+        }
+
+
     </script>
     
 </body>
