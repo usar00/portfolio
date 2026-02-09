@@ -80,6 +80,19 @@
   font-size: 0.9rem;
   color: rgba(210, 220, 255, 0.7);
   letter-spacing: 0.12em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.status-label {
+  display: inline-block;
+}
+
+.status-dots {
+  display: inline-block;
+  width: 1.6em;
+  text-align: left;
 }
 
 .timer-time {
@@ -93,6 +106,48 @@
   flex-wrap: wrap;
   gap: 0.75rem;
   justify-content: center;
+}
+
+.volume-controls {
+  width: 100%;
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+}
+
+.volume-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  color: rgba(210, 220, 255, 0.7);
+  text-transform: uppercase;
+}
+
+.volume-slider {
+  width: min(260px, 70vw);
+  accent-color: #ff8a3d;
+  cursor: pointer;
+}
+
+.sound-controls {
+  width: 100%;
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+}
+
+.sound-select {
+  width: min(260px, 70vw);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  background: rgba(10, 12, 22, 0.95);
+  color: #f3f5ff;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  outline: none;
+}
+
+.sound-select option {
+  background: #0a0c16;
+  color: #f3f5ff;
 }
 
 .control-button {

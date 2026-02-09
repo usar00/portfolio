@@ -1,9 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { type ChangeEvent, useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 
 const DURATIONS = [
   { label: '5:00', seconds: 5 * 60 },
   { label: '25:00', seconds: 25 * 60 },
+]
+
+const SOUND_OPTIONS = [
+  { id: 'calm_harp', label: 'Calm Harp' },
+  { id: 'soft_bell', label: 'Soft Bell' },
+  { id: 'gentle_choir', label: 'Gentle Choir' },
+  { id: 'warm_glow', label: 'Warm Glow' },
+  { id: 'quiet_stream', label: 'Quiet Stream' },
 ]
 
 const formatTime = (totalSeconds: number) => {
@@ -18,6 +26,9 @@ function App() {
   const [lastSetSeconds, setLastSetSeconds] = useState(DURATIONS[1].seconds)
   const [isRunning, setIsRunning] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
+  const [volume, setVolume] = useState(0.6)
+  const [dotCount, setDotCount] = useState(1)
+  const [soundId, setSoundId] = useState(SOUND_OPTIONS[0].id)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const endTimeRef = useRef<number | null>(null)
@@ -34,8 +45,22 @@ function App() {
     const audio = audioRef.current
     if (audio) {
       audio.muted = isMuted
+      audio.volume = Math.max(0, Math.min(1, volume))
     }
-  }, [isMuted])
+  }, [isMuted, volume])
+
+  useEffect(() => {
+    if (!isRunning) {
+      setDotCount(1)
+      return
+    }
+
+    const intervalId = window.setInterval(() => {
+      setDotCount((prev) => (prev % 3) + 1)
+    }, 500)
+
+    return () => window.clearInterval(intervalId)
+  }, [isRunning])
 
   useEffect(() => {
     if (!isRunning) return
@@ -171,9 +196,21 @@ function App() {
     setIsMuted((prev) => !prev)
   }
 
+  const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setVolume(Number(event.target.value) / 100)
+  }
+
+  const handleTestSound = () => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.currentTime = 0
+    void audio.play()
+  }
+
   const radius = 130
   const circumference = 2 * Math.PI * radius
   const dashOffset = circumference * (1 - progress)
+  const soundSrc = `${import.meta.env.BASE_URL}assets/audio/${soundId}.wav`
 
   return (
     <div className="app">
@@ -193,7 +230,10 @@ function App() {
             />
           </svg>
           <div className="timer-center">
-            <span className="timer-status">{isRunning ? '集中中' : '待機中'}</span>
+            <span className="timer-status">
+              <span className="status-label">Focus</span>
+              <span className="status-dots">{isRunning ? '.'.repeat(dotCount) : ''}</span>
+            </span>
             <span className="timer-time">{formatTime(remainingSeconds)}</span>
           </div>
         </div>
@@ -216,8 +256,48 @@ function App() {
             {isMuted ? '消音' : '音量'}
           </button>
         </div>
+
+        <div className="volume-controls">
+          <label className="volume-label" htmlFor="volume-slider">
+            Volume {Math.round(volume * 100)}%
+          </label>
+          <input
+            id="volume-slider"
+            className="volume-slider"
+            type="range"
+            min="0"
+            max="100"
+            value={Math.round(volume * 100)}
+            onChange={handleVolumeChange}
+          />
+          <button className="control-button subtle" type="button" onClick={handleTestSound}>
+            テスト
+          </button>
+        </div>
+
+        <div className="sound-controls">
+          <label className="volume-label" htmlFor="sound-select">
+            End Sound
+          </label>
+          <select
+            id="sound-select"
+            className="sound-select"
+            value={soundId}
+            onChange={(event) => setSoundId(event.target.value)}
+          >
+            {SOUND_OPTIONS.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
       </main>
-      <audio ref={audioRef} src="/assets/audio/pomodoro-chime.wav" preload="auto" />
+      <audio
+        ref={audioRef}
+        src={soundSrc}
+        preload="auto"
+      />
     </div>
   )
 }
