@@ -1,0 +1,27 @@
+:root {
+  font-family: 'Montserrat', 'Noto Sans JP', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #f3f5ff;
+  background-color: #05060d;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #05060d;
+}
+
+#root {
+  min-height: 100vh;
+}
